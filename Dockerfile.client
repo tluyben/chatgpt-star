@@ -1,0 +1,13 @@
+FROM node:18.4.0
+ENV NODE_ENV=production
+
+WORKDIR /app
+
+ADD . .
+
+RUN touch package.json
+RUN touch yarn.lock
+RUN yarn install
+
+CMD [ "yarn", "start" ]
+#CMD [ "sleep", "10000" ]
