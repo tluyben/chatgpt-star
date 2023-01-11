@@ -1,15 +1,22 @@
 # What is this? 
 
-This is a fast & dirty react chat client for experimenting with chatgpt, dall-e, sd, etc on your localhost. It's meant to quickly 
-prototype ideas to test viability. 
+This is a simple chat frontend for multiple GPT models. 
 
 ## Setting up 
 
-- Make sure to have Node 17+ installed with yarn/npm/npx 
-- Clone this project: https://github.com/tluyben/chatgpt-api
-- Read the docs over there and set it up properly
-- Run the server on your local machine (it will run on port 3001)
-- cd to the chatgpt-playgraound directory (this project) and start the playground with npm install; npm start or yarn; yarn start 
+This is a very small project and it has a docker file. It has been set up to run on the same machine as the model (running on port :8080). 
+
+- change, if needed, the proxy in package.json 
+- ./start
+
+and then 
+
+- ./stop 
+
+to stop. 
+
+Go to http://localhost:3000 or http://server:3000 to start playing around. 
+
 
 ## Getting Started with Create React App
 
