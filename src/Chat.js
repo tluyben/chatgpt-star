@@ -48,6 +48,10 @@ const Chat = () => {
     const [chat, setChat] = useState([
     ])
     const [isLoading, setIsLoading] = useState(false);
+    const [tokens, setTokens] = useState(100);
+    const [top_p, setTop_p] = useState(0.7);
+    const [top_k, setTop_k] = useState(0);
+    const [temperature, setTemperature] = useState(1.0);
 
     function handleChange(event) {
         setMessage(event.target.value);
@@ -76,10 +80,10 @@ const Chat = () => {
                 setIsLoading(true);
                 const response = await axios.post('/generate/', {
                     "text": msg,
-                    "generate_tokens_limit": 100,
-                    "top_p": 0.7,
-                    "top_k": 0,
-                    "temperature": 1.0
+                    "generate_tokens_limit": tokens,
+                    "top_p": top_p,
+                    "top_k": top_k,
+                    "temperature": temperature
                 })
                 const data = response.data.completion
                 //const data = await response.json();
@@ -106,7 +110,7 @@ const Chat = () => {
 
             <Grid container component={Paper} className={classes.chatSection}>
 
-                <Grid item xs={12}>
+                <Grid item xs={10}>
                     <List className={classes.messageArea} ref={chatWindowRef}>
                         {chat.map((c, i) =>
 
@@ -135,6 +139,92 @@ const Chat = () => {
                             <Fab color="primary" disabled={isLoading} onClick={async () => await addMessage('ME', message)} aria-label="add"><SendIcon /></Fab>
                         </Grid>
                     </Grid>
+                </Grid>
+                <Grid item xs={2} className={classes.borderRight500}>
+                    <List>
+                        <ListItem button key="RightHeader">
+                            <ListItemText primary="Settings"></ListItemText>
+                        </ListItem>
+                    </List>
+                    <Divider />
+
+                    <List>
+                        <ListItem button key="TokensItemHead">
+                            <ListItemText primary="Tokens"></ListItemText>
+                        </ListItem>
+                        <ListItem button key="TokensItem">
+                            <Slider
+                                aria-label="Tokens"
+                                defaultValue={100}
+                                value={tokens}
+                                valueLabelDisplay="auto"
+                                step={50}
+                                marks
+                                min={50}
+                                max={1000}
+                                onChange={(event, newValue) => {
+                                    setTokens(newValue);
+                                }}
+                            />
+                            {tokens}
+                        </ListItem>
+                        <ListItem button key="TemperatureHeader">
+                            <ListItemText primary="Temperature"></ListItemText>
+                        </ListItem>
+                        <ListItem button key="RightHeader">
+                            <Slider
+                                aria-label="Temperature"
+                                defaultValue={1}
+                                value={temperature}
+                                valueLabelDisplay="auto"
+                                step={0.1}
+                                marks
+                                min={0}
+                                max={1}
+                                onChange={(event, newValue) => {
+                                    setTemperature(newValue);
+                                }}
+                            />
+                        </ListItem>
+                        <ListItem button key="TopPItemHead">
+                            <ListItemText primary="Top-p"></ListItemText>
+                        </ListItem>
+                        <ListItem button key="TopPItem">
+                            <Slider
+                                aria-label="TopP"
+                                defaultValue={0.7}
+                                value={top_p}
+                                valueLabelDisplay="auto"
+                                step={0.1}
+                                marks
+                                min={0}
+                                max={1}
+                                onChange={(event, newValue) => {
+                                    setTop_p(newValue);
+                                }}
+                            />
+                        </ListItem>
+
+                        <ListItem button key="TopKItemHead">
+                            <ListItemText primary="Top-k"></ListItemText>
+                        </ListItem>
+                        <ListItem button key="TopKItem">
+                            <Slider
+                                aria-label="TopK"
+                                defaultValue={0.0}
+                                value={top_k}
+                                valueLabelDisplay="auto"
+                                step={0.1}
+                                marks
+                                min={0}
+                                max={1}
+                                onChange={(event, newValue) => {
+                                    setTop_k(newValue);
+                                }}
+                            />
+                        </ListItem>
+
+                    </List>
                 </Grid>
             </Grid>
         </div>
