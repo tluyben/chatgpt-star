@@ -3,6 +3,7 @@ import { useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Tooltip from '@material-ui/core/Tooltip';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
@@ -49,7 +50,7 @@ const Chat = () => {
     ])
     const [isLoading, setIsLoading] = useState(false);
     const [tokens, setTokens] = useState(100);
-    const [top_p, setTop_p] = useState(0.7);
+    const [top_p, setTop_p] = useState(0.75);
     const [top_k, setTop_k] = useState(0);
     const [temperature, setTemperature] = useState(1.0);
 
@@ -151,7 +152,9 @@ const Chat = () => {
 
                     <List>
                         <ListItem button key="TokensItemHead">
-                            <ListItemText primary="Tokens"></ListItemText>
+                            <Tooltip title="Output token length; more is slower but longer text output." placement="left-start">
+                                <ListItemText primary="Tokens"></ListItemText>
+                            </Tooltip>
                         </ListItem>
                         <ListItem button key="TokensItem">
                             <Slider
@@ -170,7 +173,9 @@ const Chat = () => {
                             {tokens}
                         </ListItem>
                         <ListItem button key="TemperatureHeader">
-                            <ListItemText primary="Temperature"></ListItemText>
+                            <Tooltip title="The degree of randomness to use when generating output. Lower is less random." placement="left-start">
+                                <ListItemText primary="Temperature"></ListItemText>
+                            </Tooltip>
                         </ListItem>
                         <ListItem button key="RightHeader">
                             <Slider
@@ -188,15 +193,17 @@ const Chat = () => {
                             />
                         </ListItem>
                         <ListItem button key="TopPItemHead">
-                            <ListItemText primary="Top-p"></ListItemText>
+                            <Tooltip title="Pick from amongst the top tokens that add up to p%. If p & k then p comes after k." placement="left-start">
+                                <ListItemText primary="Top-p"></ListItemText>
+                            </Tooltip>
                         </ListItem>
                         <ListItem button key="TopPItem">
                             <Slider
                                 aria-label="TopP"
-                                defaultValue={0.7}
+                                defaultValue={0.75}
                                 value={top_p}
                                 valueLabelDisplay="auto"
-                                step={0.1}
+                                step={0.05}
                                 marks
                                 min={0}
                                 max={1}
@@ -207,7 +214,9 @@ const Chat = () => {
                         </ListItem>
 
                         <ListItem button key="TopKItemHead">
-                            <ListItemText primary="Top-k"></ListItemText>
+                            <Tooltip title="Pick from amongst the top k highest scoring tokens." placement="left-start">
+                                <ListItemText primary="Top-k"></ListItemText>
+                            </Tooltip>
                         </ListItem>
                         <ListItem button key="TopKItem">
                             <Slider
