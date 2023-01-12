@@ -86,10 +86,11 @@ const Chat = () => {
                     "temperature": temperature
                 })
                 const data = response.data.completion
-                //const data = await response.json();
+                if (!data && response.data.error) {
+                    data = 'Error: ' + response.data.error
+                }
                 setIsLoading(false);
-                //console.log(response)
-                //console.log(data)
+
                 // add the response from the server to the chat
                 setChat([...chat, { from, msg, time }, { from: 'AI', msg: data, time }])
                 chatWindowRef.current.scrollTo(0, chatWindowRef.current.scrollHeight);
@@ -163,7 +164,7 @@ const Chat = () => {
                                 min={50}
                                 max={1000}
                                 onChange={(event, newValue) => {
-                                    setTokens(newValue);
+                                    setTokens(parseInt(newValue));
                                 }}
                             />
                             {tokens}
@@ -211,15 +212,15 @@ const Chat = () => {
                         <ListItem button key="TopKItem">
                             <Slider
                                 aria-label="TopK"
-                                defaultValue={0.0}
+                                defaultValue={0}
                                 value={top_k}
                                 valueLabelDisplay="auto"
-                                step={0.1}
+                                step={1}
                                 marks
                                 min={0}
-                                max={1}
+                                max={tokens}
                                 onChange={(event, newValue) => {
-                                    setTop_k(newValue);
+                                    setTop_k(parseInt(newValue));
                                 }}
                             />
                         </ListItem>
